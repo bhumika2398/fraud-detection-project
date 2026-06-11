@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import joblib
 import numpy as np
@@ -6,11 +7,13 @@ import numpy as np
 st.set_page_config(page_title="Fraud Guard AI", page_icon="🛡️")
 
 # 2. LOAD ASSETS
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 try:
-    model = joblib.load('../models/fraud_model.pkl')
-    scaler = joblib.load('../models/scaler.pkl')
-except:
-    st.error("Error: Could not find model files.")
+    model = joblib.load(os.path.join(BASE_DIR, 'models', 'fraud_model.pkl'))
+    scaler = joblib.load(os.path.join(BASE_DIR, 'models', 'scaler.pkl'))
+except Exception as e:
+    st.error(f"Error loading model: {e}")
     st.stop()
 
 # 3. HEADER & UI
